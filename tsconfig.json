@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "./dist",          // Le dossier où le JavaScript compilé sera placé
+    "rootDir": "./src",          // Le dossier où se trouve le code TypeScript source
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,      // Active le support des décorateurs
+    "emitDecoratorMetadata": true        // (Optionnel) Active l'émission des métadonnées pour les décorateurs
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
