@@ -1,35 +1,43 @@
 {
   "name": "vivilink-server",
   "version": "1.0.0",
-  "description": "ViviLink - API pour la gestion des utilisateurs et des organisations",
+  "description": "Backend server for ViviLink",
   "main": "dist/index.js",
   "scripts": {
+    "start": "node dist/src/framework_drivers/web/ExpressServer.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/framework_drivers/web/ExpressServer.ts",
     "build": "tsc",
-    "start": "cross-env NODE_ENV=production node dist/index.test",
-    "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
-    "test": "jest"
-  },
-  "author": "Votre Nom",
-  "license": "MIT",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --coverage",
+    "swagger": "swagger-jsdoc -d swaggerDef.js -o ./swagger.json",
+    "prepare": "husky install",
+    "prebuild": "rimraf dist"
+  },   
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "pg": "^8.12.0",
+    "express": "^4.17.1",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
+    "typeorm": "^0.3.7",
     "reflect-metadata": "^0.1.13",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.3",
-    "typeorm": "^0.3.20"
+    "pg": "^8.7.1",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.15",
-    "@types/jest": "^29.4.0",
-    "@types/node": "^18.11.18",
-    "cross-env": "^7.0.3",
-    "jest": "^29.4.0",
-    "nodemon": "^3.1.4",
-    "ts-jest": "^29.0.5",
-    "ts-node": "^10.9.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.4"
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.4",
+    "husky": "^7.0.4",
+    "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   }
 }

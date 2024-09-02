@@ -1,22 +1,28 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+// src/framework_drivers/web/swagger.ts
+import swaggerJsDoc, { Options } from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';
 
-const options = {
-  definition: {
+const swaggerOptions: Options = {
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
       title: 'ViviLink API',
       version: '1.0.0',
-      description: 'API documentation for ViviLink',
+      description: 'API Documentation for ViviLink',
     },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Development server',
+      },
+    ],
   },
-  apis: ['./src/interfaces/routes.ts'], // Fichiers où Swagger cherche les commentaires
+  apis: ['./src/interfaces/controllers/*.ts'], // Path to the API docs in controllers
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-export const setupSwagger = (app: Express) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  console.log('Swagger docs available at /api-docs');
-};
+export function setupSwagger(app: Express): void {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+}
