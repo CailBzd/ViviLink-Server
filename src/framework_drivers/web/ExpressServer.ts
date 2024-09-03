@@ -1,38 +1,29 @@
 // src/framework_drivers/web/ExpressServer.ts
+import 'dotenv/config'; // Doit être la première importation
+
 import express from 'express';
-import router from '../../interfaces/routes';
-import { setupSwagger } from '../../interfaces/swagger';
+import passport from 'passport';
+import routes from '../../interfaces/routes';
 import { initializeDatabase } from '../database';
 
 const app = express();
-const port = 7788;
+const port = process.env.PORT || 3000;
 
-// Adresse IP du serveur
-// const host = '192.168.192.1';
-const host = '192.168.1.59';
+// Vérifiez ici si JWT_SECRET est défini
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 app.use(express.json());
 
-// Configurer Swagger
-setupSwagger(app);
+// Initialiser la base de données
+initializeDatabase();
 
-// Initialiser la base de données et démarrer le serveur
-async function startServer() {
-  try {
-    await initializeDatabase();
+// Initialiser Passport
+app.use(passport.initialize());
 
-    // Utiliser les routes définies
-    app.use(router);
+// Utiliser les routes
+app.use(routes);
 
-    // Démarrer le serveur
-    app.listen(port, host, () => {
-      console.log(`Server is running on http://${host}:${port}`);
-      console.log(`API Docs available at http://${host}:${port}/api-docs`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-}
-
-startServer();
+// Démarrer le serveur
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
