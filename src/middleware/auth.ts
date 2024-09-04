@@ -9,9 +9,6 @@ const opts = {
   secretOrKey: process.env.JWT_SECRET,  // Assurez-vous que cela récupère correctement la clé secrète
 };
 
-console.log('TEST : ', process.env.IP);
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
 passport.use(
   new Strategy(opts, async (jwt_payload, done) => {
     

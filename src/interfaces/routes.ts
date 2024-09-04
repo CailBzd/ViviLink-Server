@@ -1,5 +1,6 @@
 // src/interfaces/routes.ts
 import { Router } from 'express';
+import { body, validationResult } from 'express-validator';
 import { OrganizationController } from './controllers/OrganizationController';
 import { AuthController } from './controllers/AuthController';
 import { auth } from '../middleware/auth';
@@ -7,6 +8,15 @@ import { auth } from '../middleware/auth';
 const router = Router();
 const organizationController = new OrganizationController();
 const authController = new AuthController();
+
+// Middleware pour gérer les erreurs de validation
+const validateRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
 
 // Routes d'authentification
 router.post(

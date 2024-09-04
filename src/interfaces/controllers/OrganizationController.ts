@@ -13,7 +13,7 @@ export class OrganizationController {
 
   /**
    * @swagger
-   * /organizations:
+   * /api/organizations:
    *   get:
    *     summary: Retrieve a list of organizations
    *     description: Retrieve a list of all organizations.

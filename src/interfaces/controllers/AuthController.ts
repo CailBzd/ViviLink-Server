@@ -7,6 +7,41 @@ import { User } from '../../entities/User';
 import { AppDataSource } from '../../framework_drivers/database';
 
 export class AuthController {
+    /**
+   * @swagger
+   * /api/register:
+   *   post:
+   *     summary: Register a new user
+   *     tags: [Authentication]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *               - name
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 minLength: 6
+   *                 description: Password must be at least 6 characters long
+   *               name:
+   *                 type: string
+   *                 description: Name of the user
+   *     responses:
+   *       201:
+   *         description: User registered successfully
+   *       400:
+   *         description: Validation error or user already exists
+   *       500:
+   *         description: Server error
+   */
   public async register(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -41,6 +76,43 @@ export class AuthController {
     }
   }
 
+  /**
+   * @swagger
+   * /api/login:
+   *   post:
+   *     summary: Log in a user
+   *     tags: [Authentication]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 description: User password
+   *     responses:
+   *       200:
+   *         description: Successful login with JWT token
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 token:
+   *                   type: string
+   *       400:
+   *         description: Invalid credentials or validation errors
+   *       500:
+   *         description: Server error
+   */
   public async login(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

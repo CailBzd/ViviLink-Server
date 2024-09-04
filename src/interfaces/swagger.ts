@@ -3,7 +3,13 @@ import swaggerJsDoc, { Options } from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';
 
+
+const host = process.env.IP || '192.168.192.1';
+const port = process.env.PORT || 3000;
+
 const swaggerOptions: Options = {
+
+  
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
@@ -13,8 +19,8 @@ const swaggerOptions: Options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Development server',
+        url: `http://${host}:${port}`,
+        description: `Development server`,
       },
     ],
   },
