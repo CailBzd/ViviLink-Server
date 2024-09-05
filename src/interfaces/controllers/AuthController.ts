@@ -7,41 +7,41 @@ import { User } from '../../entities/User';
 import { AppDataSource } from '../../framework_drivers/database';
 
 export class AuthController {
-    /**
-   * @swagger
-   * /api/register:
-   *   post:
-   *     summary: Register a new user
-   *     tags: [Authentication]
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             type: object
-   *             required:
-   *               - email
-   *               - password
-   *               - name
-   *             properties:
-   *               email:
-   *                 type: string
-   *                 format: email
-   *               password:
-   *                 type: string
-   *                 minLength: 6
-   *                 description: Password must be at least 6 characters long
-   *               name:
-   *                 type: string
-   *                 description: Name of the user
-   *     responses:
-   *       201:
-   *         description: User registered successfully
-   *       400:
-   *         description: Validation error or user already exists
-   *       500:
-   *         description: Server error
-   */
+  /**
+ * @swagger
+ * /api/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - name
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 minLength: 6
+ *                 description: Password must be at least 6 characters long
+ *               name:
+ *                 type: string
+ *                 description: Name of the user
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Validation error or user already exists
+ *       500:
+ *         description: Server error
+ */
   public async register(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -49,7 +49,8 @@ export class AuthController {
       return;
     }
 
-    const { email, password, name } = req.body;
+    const email = req.body.email.toLowerCase();
+    const { password, name } = req.body;
 
     try {
       const userRepository = AppDataSource.getRepository(User);
@@ -120,7 +121,8 @@ export class AuthController {
       return;
     }
 
-    const { email, password } = req.body;
+    const email = req.body.email.toLowerCase();
+    const { password } = req.body;
 
     try {
       const userRepository = AppDataSource.getRepository(User);
@@ -146,7 +148,7 @@ export class AuthController {
         expiresIn: '1h',
       });
 
-      res.json({ token });
+      res.json({ token, name: user.name });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Server error' });

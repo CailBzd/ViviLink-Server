@@ -12,7 +12,6 @@ const opts = {
 passport.use(
   new Strategy(opts, async (jwt_payload, done) => {
     
-  console.log("PORT : " + opts.secretOrKey);
     try {
       const userRepository = AppDataSource.getRepository(User);
       const user = await userRepository.findOne({ where: { id: jwt_payload.userId } });

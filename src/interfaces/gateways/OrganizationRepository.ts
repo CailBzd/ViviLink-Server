@@ -11,7 +11,6 @@ export class OrganizationRepository {
   }
 
   public async findAll(): Promise<Organization[]> {
-    console.log("findAll");
     return await this.organizationRepo.find();
   }
 }
